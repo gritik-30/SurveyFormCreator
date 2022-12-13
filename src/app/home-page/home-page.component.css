@@ -1,0 +1,50 @@
+:host{
+    font-family: 'Roboto', sans-serif;
+}
+
+.content {
+    position: absolute;
+    top: 170px;
+    left: 70px;
+    margin-right: 70px;
+}
+
+h1 {
+    font-weight: 500;
+    font-size: 7em;
+    line-height: 90%;
+}
+
+span {
+    font-weight: 300;
+    font-size: 1.5em;
+}
+
+.actions {
+    margin-top: 20px;
+}
+
+#previous {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .content {
+        position: absolute;
+        top: 50px;
+        left: 20px;
+        margin-right: 50px;
+    }
+
+    h1 {
+        font-size: 5em;
+        line-height: 90%;
+    }
+}
+
+@media screen and (max-width: 408px) {
+    #previous {
+    margin-left: 0;
+    margin-top: 10px;
+}
+}

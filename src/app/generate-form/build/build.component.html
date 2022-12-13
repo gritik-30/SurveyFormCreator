@@ -1,0 +1,105 @@
+<header>
+    <div class="forms-logo">
+        <!-- <img src="../../../assets/images/forms-svgrepo-com.svg" alt="forms-logo"> -->
+        <span class="brand-name">Form Creator</span>
+    </div>
+
+    <div class="actions ms-auto">
+        <button class="btn btn-outline-primary" (click)="preview()"><i class="fa-regular fa-eye"></i> Preview</button>
+        <button class="btn btn-primary" (click)="submit()"><i class="fa-regular fa-paper-plane"></i> Share</button>
+    </div>
+</header>
+
+<div class="container">
+    <form [formGroup]="newForm">
+    <div class="form-heading box">
+        <input class="fs-1" type="text" formControlName="formTitle">
+        <textarea name="" id="" rows="2" formControlName="formDescription"></textarea>
+    </div>
+    <!-- {{newForm.value | json}} -->
+    <div formArrayName="questions">
+        <div class="form-field box" *ngFor="let question of questions.controls; let i = index">
+            <div [formGroupName]="i">
+                <div class="d-flex justify-content-between align-items-center border-bottom mb-2">
+                    <div class="form-check form-switch">
+                        <label class="form-check-label" [for]="i" style="cursor: pointer;">Required</label>
+                        <input class="form-check-input" type="checkbox" role="switch" [id]="i" style="cursor: pointer;" formControlName="required">
+                    </div>
+                    <button class="btn fs-5 delete-question" (click)="removeQuestion(i)"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="mb-3">
+                    <!-- enter question and select type of response expected -->
+                    <div class="question-box">
+                        <input class="fs-4 question" type="text" formControlName="label">
+                    </div>
+                    <div class="question-type">
+                        <select name="question-type" id="question-type" class="form-select" formControlName="type">
+                            <option value="radio" selected>Multiple Choice</option>
+                            <option value="checkbox">Checkbox</option>
+                            <option value="text">Short Answer</option>
+                            <option value="textarea">Long Answer</option>
+                            <option value="date">Date</option>
+                            <option value="time">Time</option>
+                        </select>
+                    </div>
+                </div>
+        
+                <div formArrayName="options" *ngIf="questionType(i) == 'radio'">
+                    <!-- enter options for RADIO type input -->
+                    <div class="options-block expected-response fs-5" *ngFor="let option of getOptions(i).controls; let o = index">
+                        <i class="fa-regular fa-circle"></i> 
+                        <input
+                            class="option"
+                            type="text"
+                            [formControlName]="o"
+                            [class.invalid]="isInvalid(i,o)"
+                        >
+                        <button class="btn" (click)="removeOption(i,o)" *ngIf="getOptions(i).controls.length > 1"><i class="fa-regular fa-circle-xmark"></i></button>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="addOption(i)" style="margin-top: 15px;"><i class="fa-solid fa-plus"></i> Add Option</button>
+                </div>
+        
+                <div formArrayName="options" *ngIf="questionType(i) == 'checkbox'">
+                    <!-- enter options for CHECKBOX type input -->
+                    <div class="options-block expected-response fs-5" *ngFor="let option of getOptions(i).controls; let o = index">
+                        <i class="fa-regular fa-square"></i> 
+                        <input
+                            class="option"
+                            type="text"
+                            [formControlName]="o"
+                            [class.invalid]="isInvalid(i,o)"
+                        >
+                        <button class="btn" (click)="removeOption(i,o)" *ngIf="getOptions(i).controls.length > 1"><i class="fa-regular fa-circle-xmark"></i></button>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="addOption(i)"><i class="fa-solid fa-plus"></i> Add Option</button>
+                </div>
+        
+                <div class="fs-5 expected-response" *ngIf="questionType(i) == 'date'">
+                    <!-- place holder for DATE -->
+                    <i class="fa-regular fa-calendar"></i> 
+                    <span> dd/mm/yyyy</span>
+                </div>
+        
+                <div class="fs-5 expected-response" *ngIf="questionType(i) == 'time'">
+                    <!-- place holder for TIME -->
+                    <i class="fa-regular fa-clock"></i> 
+                    <span> hr:min</span>
+                </div>
+        
+                <div class="fs-5 expected-response" *ngIf="questionType(i) == 'text' || questionType(i) == 'textarea'">
+                    <!-- place holder for TEXT type response -->
+                    <span id="text-response-placeholder">User's response</span>
+                </div>
+            </div>
+    
+
+    
+        </div>
+    </div>
+    <div class="actions">
+        <!-- <button class="btn btn-outline-danger">Reset</button> -->
+        <button class="btn btn-primary" (click)="addNewQuestion()">New Question</button>
+    </div>
+    </form>
+</div>
