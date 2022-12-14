@@ -1,0 +1,23 @@
+.container {
+    padding-top: 25px;
+    min-width: 45%;
+    max-width: 715px;
+}
+
+.form-heading > h1 {
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-field {
+    padding-top: 10px;
+}
+
+.form-field > input[type="text"], textarea {
+    margin-top: 15px;
+    border-bottom: 2px solid #ced4da;
+}
+
+.form-field > input[type="text"]:focus, textarea:focus {
+    border-bottom: 2px solid #0d6efd;
+}

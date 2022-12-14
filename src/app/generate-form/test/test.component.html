@@ -1,1 +1,78 @@
-<p>test works!</p>
+<div class="container">
+    <div *ngIf="submitted">
+        <div class="box response text-center fs-5">
+            Your response has been recorded.
+        </div>
+    
+        <div class="box submitted-data">
+            Your Response:
+            <table class="table">
+                <thead>
+                  <tr class="table-secondary">
+                    <th scope="col">#</th>
+                    <th scope="col">Question</th>
+                    <th scope="col">Response</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let question of testFormData?.questions; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{question?.label}}</td>
+                    <!-- <td></td> -->
+                    <td *ngIf="response">{{response[question?.label]}}</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="!submitted">
+        <div class="form-heading box">
+            <h1>{{testFormData?.formTitle}}</h1>
+            <hr>
+            <p>{{testFormData?.formDescription}}</p>
+        </div>
+        <!-- {{form.value | json}} -->
+        <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="box form-field" *ngFor="let question of testFormData?.questions" [ngSwitch]="question?.type" [class.invalid]="checkValidity(question?.label)">
+            <div class="text-danger" style="float: right;" *ngIf="question?.required">*required</div>
+            <label for="{{question?.label}}" class="fs-5 question">{{question?.label}}</label>
+    
+            <!-- TEXT INPUT -->
+            <input type="text" formControlName="{{question?.label}}" *ngSwitchCase="'text'">
+    
+            <!-- TEXTAREA INPUT -->
+            <textarea cols="10" rows="2" formControlName="{{question?.label}}" *ngSwitchCase="'textarea'"></textarea>
+    
+            <!-- DATE INPUT -->
+            <input type="date" formControlName="{{question?.label}}" *ngSwitchCase="'date'">
+    
+            <!-- TIME INPUT -->
+            <input type="time" formControlName="{{question?.label}}" *ngSwitchCase="'time'">
+    
+            <!-- RADIO INPUT -->
+            <div class="options" *ngSwitchCase="'radio'">
+                <div class="form-check" *ngFor="let option of question?.options">
+                    <input class="form-check-input" type="radio" formControlName="{{question?.label}}" value="{{option}}" id="{{question.label + '_' +option}}">
+                    <label class="form-check-label" for="{{question.label + '_' +option}}">
+                        {{option}}
+                    </label>
+                </div>
+            </div>
+    
+            <!-- CHECKBOX INPUT -->
+            <div class="options" *ngSwitchCase="'checkbox'">
+                <div class="form-check" *ngFor="let option of question?.options; let o = index">
+                    <input class="form-check-input" type="checkbox" value="{{option}}" id="{{question + option}}" (click)="changeCheckboxValue(question?.label, option, o, $event)">
+                    <label class="form-check-label" for="{{question + option}}">
+                      {{option}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+        </form>
+    </div>
+
+    
+</div>

@@ -1,5 +1,5 @@
 <header>
-    <div class="forms-logo">
+    <div class="forms-logo" (click)="toHomePage()">
         <!-- <img src="../../../assets/images/forms-svgrepo-com.svg" alt="forms-logo"> -->
         <span class="brand-name">Form Creator</span>
     </div>
@@ -31,7 +31,7 @@
                 <div class="mb-3">
                     <!-- enter question and select type of response expected -->
                     <div class="question-box">
-                        <input class="fs-4 question" type="text" formControlName="label">
+                        <input class="fs-5 question" type="text" formControlName="label">
                     </div>
                     <div class="question-type">
                         <select name="question-type" id="question-type" class="form-select" formControlName="type">
